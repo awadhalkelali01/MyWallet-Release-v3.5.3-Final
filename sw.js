@@ -56,7 +56,7 @@ self.addEventListener("fetch", event => {
         .catch(() => {
           // في حالة عدم وجود إنترنت وليس لدينا كاش
           if (event.request.destination === "document") {
-            return caches.match("/index.html");
+            return caches.match("./index.html");
           }
         });
     })
@@ -75,6 +75,7 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
 
 
 
