@@ -2,25 +2,25 @@ const CACHE_VERSION = "mywallet-v4.1";
 const CACHE_NAME = `${CACHE_VERSION}-cache`;
 
 const ASSETS = [
-  "/",
-  "index.html",
-  "banks.html",
-  "gold.html",
-  "zakat-overview.html",
-  "debts.html",
-  "settings.html",
+  "./",
+  "./index.html",
+  "./banks.html",
+  "./gold.html",
+  "./zakat-overview.html",
+  "./debts.html",
+  "./settings.html",
 
-  "style.css",
-  "app.js",
-  "core_logic.js",
-  "banks.js",
-  "debts.js",
-  "gold.js",
-  "settings.js",
-  "manifest.json",
+  "./style.css",
+  "./app.js",
+  "./core_logic.js",
+  "./banks.js",
+  "./debts.js",
+  "./gold.js",
+  "./settings.js",
+  "./manifest.json",
  
-  "icons/wallet-icon-192.png",
-  "icons/wallet-icon-512.png"
+  "./icons/wallet-icon-192.png",
+  "./icons/wallet-icon-512.png"
 ];
 
 
@@ -75,6 +75,7 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
 
 
 
