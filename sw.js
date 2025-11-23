@@ -6,7 +6,7 @@ const ASSETS = [
   "/index.html",
   "/banks.html",
   "/gold.html",
-  "/Zakat-overview.html",
+  "/zakat-overview.html",
   "/debts.html",
   "/settings.html",
 
@@ -19,6 +19,8 @@ const ASSETS = [
   "/settings.js",
   "/manifest.json",
 
+  "/wallet-icon-192.png",
+  
   "/icons/wallet-icon-192.png",
   "/icons/wallet-icon-512.png"
 ];
@@ -75,5 +77,6 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
 
 
