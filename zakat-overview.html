@@ -308,7 +308,7 @@
       const yearsSet = new Set();
       paymentsAll.forEach(p=>{ if(p.zakat_year) yearsSet.add(Number(p.zakat_year)); });
       const current = defaultYear();
-      for(let y = current-3; y <= current+1; y++) yearsSet.add(y);
+      for(let y = current-2; y <= current+3; y++) yearsSet.add(y);
       const years = Array.from(yearsSet).sort((a,b)=> b-a);
 
       // safety: ensure at least current year exists
@@ -577,3 +577,4 @@ if (savedTheme === "gold") {
 
 </body>
 </html>
+
