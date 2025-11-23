@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mywallet-v3";
+const CACHE_VERSION = "mywallet-v4";
 const CACHE_NAME = `${CACHE_VERSION}-cache`;
 
 const ASSETS = [
@@ -6,7 +6,7 @@ const ASSETS = [
   "/index.html",
   "/banks.html",
   "/gold.html",
-  "/zakat-overview.html",
+  "/Zakat-overview.html",
   "/debts.html",
   "/settings.html",
 
@@ -75,3 +75,4 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
