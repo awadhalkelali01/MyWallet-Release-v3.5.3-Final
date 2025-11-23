@@ -182,7 +182,7 @@ async function exportBackup() {
     try {
         const db = await openDB();
 
-        const stores = ['assets', 'debts', 'rates'];
+        const stores = ['assets', 'debts', 'rates', 'zakat_base'];
 
         let backup = {};
 
@@ -365,4 +365,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isAutoBackupEnabled()) {
         checkAndRunAutoBackup();
     }
+
 });
