@@ -182,9 +182,25 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const updateBox = document.getElementById("global-last-update");
+    const quickBtn = document.querySelector(".quick-refresh-btn");
+
+    if (updateBox && quickBtn) {
+        quickBtn.insertAdjacentElement("afterend", updateBox);
+        updateBox.style.margin = "8px 0 15px";
+        updateBox.style.display = "block";
+        updateBox.style.textAlign = "center";
+        updateBox.style.fontWeight = "600";
+        updateBox.style.color = "var(--muted)";
+    }
+});
+</script>
 
 </body>
 </html>
+
 
 
 
