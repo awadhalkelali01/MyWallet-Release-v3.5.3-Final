@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>محفظتي — الأصول والبنوك</title>
+
+  <link href="style.css" rel="stylesheet">
+</head>
+<body data-page="banks">
+<div class="notification-container"></div>
+  <main class="container" id="mainContent">
+    <h1 class="page-title">🏦 الأصول والحسابات 🏦</h1>
+    
+    <div class="banks-grid cards-grid" id="banksGrid">
+      </div>
+
+    <button class="fab" id="openBanksModal" aria-label="إضافة بنك جديد">➕</button>
+
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">➕ إضافة / تعديل أصل مالي</h2>
+        <div class="modal-subtitle" id="modalSubtitle">أدخل تفاصيل الأصل الجديد أدناه</div>
+
+        <label>اسم الأصل (البنك/المحفظة)</label>
+        <input type="text" id="bankName" placeholder="مثال: البنك الأهلي، محفظة العملات" required>
+
+        <label style="margin-top: 15px; display: block;">أرصدة العملات:</label>
+        <div id="currencyRows">
+          <div class="currency-row">
+            <select class="styled-select currency-select">
+              <option value="YER">ريال يمني (YER)</option>
+              <option value="SAR">ريال سعودي (SAR)</option>
+              <option value="USD">دولار أمريكي (USD)</option>
+            </select>
+            <input type="number" class="value-input" step="0.01" min="0" placeholder="قيمة الرصيد" required>
+          </div>
+        </div>
+
+        <button class="add-row-btn" id="addRowBtn">➕ أضف عملة أخرى</button>
+
+        <div class="modal-actions">
+          <button class="btn primary" id="saveBankBtn">💾 حفظ الأصل</button>
+          <button class="btn cancel" id="closeBanksModal">إلغاء</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="confirmBackdrop" aria-hidden="true">
+      <div class="modal small" role="dialog" aria-modal="true" id="confirmModal">
+        <h3 id="confirmTitle" style="color: #ff5555;">⚠️ تأكيد الحذف</h3>
+        <p id="confirmText">هل تريد حذف هذا الأصل نهائيًا؟</p>
+        <div class="modal-actions">
+          <button class="btn primary" style="background: #a30000; color: #fff;" id="confirmYes">نعم، احذف</button>
+          <button class="btn cancel" id="confirmNo">إلغاء</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+<!-- شريط التنقل السفلي -->
+<nav class="bottom-nav">
+    <a href="index.html"><span class="icon">🏠</span><span>الرئيسية</span></a>
+    <a href="banks.html" class="active"><span class="icon">📊</span><span>الأصول</span></a>
+    <a href="gold.html"><span class="icon">💎</span><span>الذهب</span></a>
+    <a href="zakat-overview.html"><span class="icon">🕌</span><span>الزكاة</span></a>
+    <a href="debts.html"><span class="icon">💳</span><span>الديون</span></a>
+    <a href="settings.html"><span class="icon">⚙️</span><span>الإعدادات</span></a>
+</nav>
+
+  <script src="core_logic.js"></script> 
+  <script src="banks.js"></script>
+
+<script>
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "gold") {
+    document.body.classList.add("gold-theme");
+}
+</script>
+
+
+</body>
+</html>

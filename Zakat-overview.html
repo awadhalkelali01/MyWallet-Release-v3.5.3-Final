@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>محفظتي — ملخص الزكاة</title>
+  <link href="style.css" rel="stylesheet">
+
+  <style>
+    /* --- Page-specific overrides & styles (Zakat Overview - Luxury) --- */
+    body[data-page="zakat-overview"] .card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .card-title { font-size: 18px !important; font-weight:700 !important; color: var(--gold); margin-bottom:12px; }
+    .big-number { font-size: 26px; font-weight: 800; color: var(--text); }
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 6px; }
+    @media (max-width: 860px) { .summary-grid { grid-template-columns: 1fr; } }
+    .zakat-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 24px; margin-top: 6px; }
+    .zakat-summary-item .card-note { color: var(--muted); font-weight:600; }
+
+    /* year bar adjustments (prevent wrapping of label + select into two lines) */
+    .year-bar {
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:12px;
+      margin: 10px 0 6px 0;
+      flex-wrap:wrap;
+    }
+    .year-left {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap; /* prevent label/select wrapping */
+    }
+    .year-actions {
+      margin-right: auto;   /* يحرك عناصر التثبيت إلى أقصى اليسار في RTL */
+      display: flex;
+      gap: 10px;
+      align-items: center;
+     }
+
+    .progress-bar-wrap { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 8px; }
+    .progress-bar { height: 18px; border-radius: 10px; width: 0%; background: linear-gradient(90deg,var(--gold), #63c76c); transition: width .45s ease; box-shadow: inset 0 -2px 6px rgba(0,0,0,0.15); }
+    .paid-remaining { display:flex; justify-content:space-between;gap:40px; margin-top:14px; align-items:center; flex-wrap:wrap; }
+    .paid-remaining .block { min-width:160px; }
+    .form-full { width: 100%; margin-top:6px; }
+    .form-full .input-group input, .form-full .input-group select { width: 100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); color:var(--text); }
+    .action-row { display:flex; justify-content:center; gap:18px; margin-top:12px; }
+    .action-row .btn { padding:10px 18px; font-size:15px; border-radius:10px; }
+    .btn.primary { background: linear-gradient(180deg,var(--gold), #e7d18b); color: var(--royal-bottom); box-shadow: 0 6px 18px rgba(240,216,128,0.12); }
+    .btn.cancel { background: rgba(255,255,255,0.06); color: var(--text); }
+    .payment-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 22px rgba(6,12,40,0.35);
+      transition: transform .18s ease, background .18s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .payment-card:hover {
+      transform: translateY(-6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+    }
+    .pc-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .pc-amount strong { font-size:20px; color: var(--gold); letter-spacing: .3px; }
+    .pc-recipient { font-size:15px; font-weight:600; color:var(--text); margin-top:6px; }
+    .pc-date { font-size:13px; color:var(--muted); margin-top:6px; }
+    .pc-notes { margin-top:10px; font-size:14px; color:var(--muted); opacity:0.95; }
+    .pc-actions { display:flex; gap:10px; margin-top:12px; justify-content:flex-end; }
+    .pc-meta { display:grid; grid-template-columns: 1fr 200px; gap:12px; align-items:center; margin-top:8px; }
+    @media (max-width: 700px) {
+      .pc-meta { grid-template-columns: 1fr; }
+      .pc-actions { justify-content:flex-start; }
+    }
+
+    .notification-container { top:18px; }
+    #zakatStatus { font-size:15px; font-weight:700; margin-top:8px; display:block; }
+
+    .fixed-base-box { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:10px; font-weight:700; }
+    .fixed-actions { display:flex; gap:8px; align-items:center; }
+    .btn.small { padding:6px 10px; font-size:13px; border-radius:8px; }
+
+  </style>
+</head>
+
+<body data-page="zakat-overview">
+
+  <!-- Notification container used by core_logic.showNotification -->
+  <div class="notification-container"></div>
+
+  <main class="container">
+    <h1 class="page-title">🕌 🧮 إدارة الزكاة — الحسابات والمدفوعات 🧮 🕌</h1>
+
+    <!-- YEAR BAR: year selector + fixed base display (placed under title) -->
+    <div class="year-bar">
+      <div class="year-left">
+        <label for="zakatYearSelect" style="font-weight:700;color:var(--muted);">سنة الزكاة</label>
+        <select id="zakatYearSelect" class="styled-select year-select"></select>
+      </div>
+
+      <div class="year-actions">
+        <div class="fixed-base-box" id="fixedBaseDisplay">لم يتم تثبيت صافي السنة</div>
+        <div class="fixed-actions">
+          <button id="pinFromNetBtn" class="btn primary small">تثبيت من الصافي الحالي</button>
+          <button id="clearPinBtn" class="btn cancel small">مسح التثبيت</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- top summary -->
+    <div class="summary-grid">
+
+      <div class="card">
+        <h2 class="card-title">إجمالي الأصول الحالية</h2>
+        <div id="totalAssets" class="big-number">—</div>
+        <div class="card-note">المجموع الإجمالي لجميع الأصول (يشمل الذهب).</div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">الديون المستحقة عليّ</h2>
+        <div id="totalDebts" class="big-number">—</div>
+        <div class="card-note">الديون القابلة للخصم من الصافي.</div>
+      </div>
+
+    </div>
+
+    <!-- zakat summary -->
+    <div class="card" style="margin-top:18px;">
+      <h2 class="card-title">ملخص الزكاة</h2>
+
+      <div class="zakat-summary-grid">
+        <div class="zakat-summary-item">
+          <div class="card-note">صافي الأصول (ما عليه زكاة):</div>
+          <div id="netAssets" class="big-number">—</div>
+        </div>
+
+        <div class="zakat-summary-item">
+          <div class="card-note">قيمة النصاب (85 غرام ذهب):</div>
+          <div id="nisaab" class="big-number">—</div>
+        </div>
+
+        <div class="zakat-summary-item">
+          <div class="card-note">الزكاة المستحقة (2.5%):</div>
+          <div id="zakatDue" class="big-number">—</div>
+          <div id="zakatStatus" class="card-note" style="margin-top:6px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- progress -->
+    <div class="card" style="margin-top:18px;">
+      <h2 class="card-title">نسبة التنفيذ</h2>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="zakatProgress"></div>
+      </div>
+      <p id="progressText" style="margin-top:8px">—</p>
+
+      <div class="paid-remaining">
+        <div class="block">
+          <div class="card-note">المبلغ المدفوع</div>
+          <div id="totalPaid" class="big-number">—</div>
+        </div>
+
+        <div class="block">
+          <div class="card-note">المتبقي للزكاة</div>
+          <div id="remaining" class="big-number">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- add payment -->
+    <div class="card" style="margin-top:18px;">
+      <h2 class="card-title">إضافة دفعة زكاة</h2>
+
+      <div class="form-full">
+        <div class="input-group">
+          <label>المبلغ (YER)</label>
+          <input type="number" id="payAmount" placeholder="مثال: 5000">
+        </div>
+
+        <div class="input-group">
+          <label>المستلم / الجهة</label>
+          <input type="text" id="payRecipient" placeholder="اختياري">
+        </div>
+
+        <div class="input-group">
+          <label>التاريخ</label>
+          <input type="date" id="payDate">
+        </div>
+
+        <div class="input-group">
+          <label>ملاحظات (اختياري)</label>
+          <input type="text" id="payNotes" placeholder="مثال: دفعة من راتب يناير">
+        </div>
+
+        <div class="action-row">
+          <button class="btn primary" id="savePayBtn">💾 حفظ الدفعة</button>
+          <button class="btn cancel" id="clearPayBtn">مسح</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- payments list (cards) -->
+    <div class="card" style="margin-top:18px;">
+      <h2 class="card-title">سجل دفعات الزكاة</h2>
+
+      <div id="paymentsList" class="payments-list" style="margin-top:10px;"></div>
+    </div>
+
+  </main>
+
+  <!-- bottom nav (same look as project) -->
+  <nav class="bottom-nav">
+    <a href="index.html"><span class="icon">🏠</span><span>الرئيسية</span></a>
+    <a href="banks.html"><span class="icon">📊</span><span>الأصول</span></a>
+    <a href="gold.html"><span class="icon">💎</span><span>الذهب</span></a>
+    <a href="zakat-overview.html" class="active"><span class="icon">🕌</span><span>الزكاة</span></a>
+    <a href="debts.html"><span class="icon">💳</span><span>الديون</span></a>
+    <a href="settings.html"><span class="icon">⚙️</span><span>الإعدادات</span></a>
+  </nav>
+
+  <!-- core logic required -->
+  <script src="core_logic.js"></script>
+
+  <script>
+    /* Zakat overview JS (year + fixed-base support) */
+    const el = {
+      totalAssets: document.getElementById('totalAssets'),
+      totalDebts: document.getElementById('totalDebts'),
+      netAssets: document.getElementById('netAssets'),
+      nisaab: document.getElementById('nisaab'),
+      zakatDue: document.getElementById('zakatDue'),
+      zakatStatus: document.getElementById('zakatStatus'),
+      zakatProgress: document.getElementById('zakatProgress'),
+      progressText: document.getElementById('progressText'),
+      totalPaid: document.getElementById('totalPaid'),
+      remaining: document.getElementById('remaining'),
+
+      payAmount: document.getElementById('payAmount'),
+      payRecipient: document.getElementById('payRecipient'),
+      payDate: document.getElementById('payDate'),
+      payNotes: document.getElementById('payNotes'),
+
+      savePayBtn: document.getElementById('savePayBtn'),
+      clearPayBtn: document.getElementById('clearPayBtn'),
+      paymentsList: document.getElementById('paymentsList'),
+
+      zakatYearSelect: document.getElementById('zakatYearSelect'),
+      fixedBaseDisplay: document.getElementById('fixedBaseDisplay'),
+      pinFromNetBtn: document.getElementById('pinFromNetBtn'),
+      clearPinBtn: document.getElementById('clearPinBtn')
+    };
+
+    const ZAKAT_PAYMENT_TYPE = "zakat_payment";
+    function fmt(v){ return Math.round(v||0).toLocaleString() + " YER"; }
+
+    /* --- Year helpers --- */
+    function defaultYear(){ return new Date().getFullYear(); }
+    function getStoredYear(){ const y = Number(localStorage.getItem('zakat_year') || 0); return y || defaultYear(); }
+    function storeYear(y){ try{ localStorage.setItem('zakat_year', String(y)); }catch(e){} }
+
+    /* load data & compute for a given year */
+    async function getZakatSummary(year){
+      await waitForRates();
+
+      const assets = await getAllData("assets");
+      const debts = await getAllData("debts");
+
+      let totalAssetsYER = 0;
+      // sum assets: ignore zakat_payment and ignore zakat_base_year items
+      assets.forEach(a=>{
+        if(a.type === ZAKAT_PAYMENT_TYPE) return; // payments are not assets
+        if(a.type === "zakat_base_year") return;  // internal base items hidden
+        const val = (typeof a.value !== 'undefined') ? a.value : (Array.isArray(a.balances) ? a.balances.reduce((s,b)=> s + (convertToYER? convertToYER(b.value,b.currency):0),0) : 0);
+        totalAssetsYER += convertToYER(val,a.currency,a.type);
+      });
+
+      let totalDebtsByMe = 0;
+      debts.forEach(d=>{
+        if(d.type === "owed_by_me"){
+          totalDebtsByMe += convertToYER(d.value,d.currency);
+        }
+      });
+
+      const net = totalAssetsYER - totalDebtsByMe;
+      const nisaabValue = currentRates.GOLD_PER_GRAM_YER * 85;
+      const zakatDue = net >= nisaabValue ? net * 0.025 : 0;
+
+      return { totalAssetsYER, totalDebtsByMe, net, nisaabValue, zakatDue, year };
+    }
+
+    async function getPayments(year){
+      const assets = await getAllData("assets");
+      return assets
+        .filter(a=> a.type === ZAKAT_PAYMENT_TYPE && Number(a.zakat_year||0) === Number(year))
+        .sort((a,b)=> (b.id||0)-(a.id||0));
+    }
+
+    /* YEAR SELECT population */
+    async function populateYearSelect(){
+      const paymentsAll = (await getAllData("assets")).filter(a=>a.type === ZAKAT_PAYMENT_TYPE);
+      const yearsSet = new Set();
+      paymentsAll.forEach(p=>{ if(p.zakat_year) yearsSet.add(Number(p.zakat_year)); });
+      const current = defaultYear();
+      for(let y = current-3; y <= current+1; y++) yearsSet.add(y);
+      const years = Array.from(yearsSet).sort((a,b)=> b-a);
+
+      // safety: ensure at least current year exists
+      if(years.length === 0) years.push(current);
+
+      // preserve previously selected value if possible
+      const prev = Number(el.zakatYearSelect.value || 0);
+
+      el.zakatYearSelect.innerHTML = '';
+      years.forEach(y=>{
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        el.zakatYearSelect.appendChild(opt);
+      });
+
+      const stored = getStoredYear();
+      if (years.includes(stored)) el.zakatYearSelect.value = stored;
+      else if (years.includes(prev)) el.zakatYearSelect.value = prev;
+      else el.zakatYearSelect.value = years[0];
+    }
+
+    /* Fixed base display & actions */
+    async function refreshFixedBaseDisplay(year){
+      let fixedBase = 0;
+      try{ fixedBase = await getZakatFixedBase(year); } catch(e){ console.warn(e); fixedBase = 0; }
+      if(fixedBase && Number(fixedBase) > 0){
+        el.fixedBaseDisplay.textContent = fmt(Number(fixedBase)) + " (صافي مثبت)";
+        el.pinFromNetBtn.textContent = 'تثبيت من الصافي الحالي';
+        el.clearPinBtn.style.display = 'inline-block';
+      } else {
+        el.fixedBaseDisplay.textContent = 'لم يتم تثبيت صافي السنة';
+        el.pinFromNetBtn.textContent = 'تثبيت من الصافي الحالي';
+        el.clearPinBtn.style.display = 'none';
+      }
+    }
+
+    async function pinFromNet(){
+      const year = Number(el.zakatYearSelect.value || getStoredYear());
+      const s = await getZakatSummary(year);
+      try{
+        await setZakatYearFixedBase(year, Math.round(s.net));
+        showNotification('✅ تم تثبيت صافي السنة للمبلغ الأساسي.');
+      }catch(e){
+        console.error(e);
+        showNotification('❌ فشل التثبيت.', true);
+      }
+      await refreshAll();
+    }
+
+    async function clearPin(){
+      const year = Number(el.zakatYearSelect.value || getStoredYear());
+      try{
+        // delete from zakat_base store (keyPath is year)
+        await deleteData('zakat_base', Number(year));
+        showNotification('✅ تم مسح التثبيت لهذه السنة.');
+      }catch(e){
+        console.error(e);
+        showNotification('❌ فشل المسح.', true);
+      }
+      // only refresh the displays (no repopulate of years needed)
+      await refreshFixedBaseDisplay(year);
+      await renderSummary();
+      await renderPaymentsList();
+    }
+
+    /* render summary & payments (uses fixed base if exists) */
+    async function renderSummary(){
+      const year = Number(el.zakatYearSelect.value || getStoredYear());
+      storeYear(year);
+
+      const s = await getZakatSummary(year);
+      // check fixed base (value stored is base net assets in YER)
+      const fixedBase = Number(await getZakatFixedBase(year) || 0);
+      // target zakat amount:
+      const zakatTarget = fixedBase && fixedBase > 0 ? Math.round(fixedBase * 0.025) : Math.round(s.zakatDue || 0);
+      const payments = await getPayments(year);
+      const totalPaid = payments.reduce((sum,p)=> sum + Number(p.value || 0), 0);
+      const remainingVal = Math.max(0, Math.round(zakatTarget - totalPaid));
+      const progress = (zakatTarget > 0) ? Math.min(1, totalPaid / zakatTarget) : 0;
+
+      el.totalAssets.textContent = fmt(s.totalAssetsYER);
+      el.totalDebts.textContent = fmt(s.totalDebtsByMe);
+
+      // show fixed base if exists, otherwise show net
+      el.netAssets.textContent = fixedBase && fixedBase>0 ? fmt(Math.round(fixedBase)) : fmt(Math.round(s.net));
+
+      el.nisaab.textContent = fmt(Math.round(s.nisaabValue));
+      el.zakatDue.textContent = fmt(Math.round(zakatTarget));
+
+      el.totalPaid.textContent = fmt(totalPaid);
+      el.remaining.textContent = fmt(remainingVal);
+
+      el.zakatProgress.style.width = (progress*100) + "%";
+      el.progressText.textContent = Math.round(progress*100) + "% من الزكاة مدفوع — (" + fmt(totalPaid) + ")";
+
+      // indicate fixed base note
+      if(fixedBase && fixedBase > 0){
+        el.fixedBaseDisplay.textContent = fmt(fixedBase) + " (صافي مثبت)";
+      } else {
+        el.fixedBaseDisplay.textContent = 'لم يتم تثبيت صافي السنة';
+      }
+
+      if(progress >= 1){
+        el.zakatStatus.textContent = 'اكتملت نسبة هذه السنة.';
+        el.zakatStatus.style.color = '#63c76c';
+      } else {
+        if(s.net >= s.nisaabValue){
+          el.zakatStatus.textContent = "تجب عليك الزكاة، تجاوز رصيدك النصاب.";
+          el.zakatStatus.style.color = '#63c76c';
+        } else {
+          el.zakatStatus.textContent = "ليس عليك زكاة، لم يتجاوز رصيدك النصاب.";
+          el.zakatStatus.style.color = 'var(--muted)';
+        }
+      }
+    }
+
+    async function renderPaymentsList(){
+      const year = Number(el.zakatYearSelect.value || getStoredYear());
+      const payments = await getPayments(year);
+      el.paymentsList.innerHTML = '';
+
+      if(!payments || payments.length === 0){
+        el.paymentsList.innerHTML = "<p class='card-note'>لا توجد دفعات مسجلة لهذه السنة.</p>";
+        return;
+      }
+
+      payments.forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'payment-card';
+
+        const recipient = p.recipient ? String(p.recipient) : '-';
+        const notes = p.notes ? String(p.notes) : '';
+        const dateStr = p.date ? new Date(p.date).toLocaleDateString('ar-EG') : '-';
+
+        card.innerHTML = `
+          <div class="pc-top">
+            <div class="pc-amount"><strong>${fmt(p.value)}</strong></div>
+            <div class="pc-date">${dateStr}</div>
+          </div>
+
+          <div class="pc-meta">
+            <div>
+              <div class="pc-recipient">الجهة: ${recipient}</div>
+              <div class="pc-notes">ملاحظة: ${notes}</div>
+            </div>
+
+            <div style="display:flex; align-items:center; justify-content:flex-end;">
+              <div class="pc-actions">
+                <button class="btn primary small-btn edit-btn">تعديل</button>
+                <button class="btn cancel small-btn del-btn">حذف</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const editBtn = card.querySelector('.edit-btn');
+        const delBtn = card.querySelector('.del-btn');
+
+        editBtn.addEventListener('click', ()=>{
+          el.payAmount.value = p.value;
+          el.payRecipient.value = p.recipient || '';
+          el.payNotes.value = p.notes || '';
+          el.payDate.value = p.date ? p.date.split('T')[0] : '';
+          el.savePayBtn.dataset.editId = p.id;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          showNotification('وضع التعديل: حرّر الحقول ثم اضغط حفظ.');
+        });
+
+        delBtn.addEventListener('click', async ()=>{
+          await deleteData('assets', p.id);
+          showNotification('✅ تم حذف الدفعة.');
+          await renderPaymentsList();
+          await renderSummary();
+        });
+
+        el.paymentsList.appendChild(card);
+      });
+    }
+
+    async function savePayment(){
+      const amount = Number(el.payAmount.value || 0);
+      if(amount <= 0) { showNotification('❌ أدخل مبلغًا صحيحًا.', true); return; }
+
+      const year = Number(el.zakatYearSelect.value || getStoredYear());
+
+      const data = {
+        name: "دفعة زكاة",
+        value: amount,
+        currency: "YER",
+        type: ZAKAT_PAYMENT_TYPE,
+        recipient: el.payRecipient.value || "",
+        notes: el.payNotes.value || "",
+        date: el.payDate.value ? (new Date(el.payDate.value)).toISOString() : new Date().toISOString(),
+        zakat_year: year
+      };
+
+      try {
+        if(el.savePayBtn.dataset.editId){
+          data.id = Number(el.savePayBtn.dataset.editId);
+          await putData('assets', data);
+          delete el.savePayBtn.dataset.editId;
+          showNotification('✅ تم تحديث الدفعة.');
+        } else {
+          await putData('assets', data);
+          showNotification('✅ تم إضافة الدفعة.');
+        }
+      } catch(e) {
+        console.error(e);
+        showNotification('❌ فشل الحفظ.', true);
+      }
+
+      clearForm();
+      await renderPaymentsList();
+      await renderSummary();
+    }
+
+    function clearForm(){
+      el.payAmount.value = '';
+      el.payRecipient.value = '';
+      el.payDate.value = '';
+      el.payNotes.value = '';
+      if(el.savePayBtn.dataset.editId) delete el.savePayBtn.dataset.editId;
+    }
+
+    async function refreshAll(){
+      await populateYearSelect();
+      const y = Number(el.zakatYearSelect.value || getStoredYear());
+      await refreshFixedBaseDisplay(y);
+      await renderSummary();
+      await renderPaymentsList();
+    }
+
+    // events
+    el.savePayBtn.addEventListener('click', savePayment);
+    el.clearPayBtn.addEventListener('click', clearForm);
+
+    // IMPORTANT: on change DON'T call refreshAll() (that repopulates the select and can break selection)
+    el.zakatYearSelect.addEventListener('change', async ()=>{
+      const y = Number(el.zakatYearSelect.value || getStoredYear());
+      storeYear(y);
+      await refreshFixedBaseDisplay(y);
+      await renderSummary();
+      await renderPaymentsList();
+    });
+
+    el.pinFromNetBtn.addEventListener('click', pinFromNet);
+    el.clearPinBtn.addEventListener('click', clearPin);
+
+    // initial load
+    document.addEventListener('DOMContentLoaded', async ()=>{
+      await openDB();
+      await loadRates();
+      await populateYearSelect();
+      if(!el.zakatYearSelect.value) el.zakatYearSelect.value = defaultYear();
+      await refreshAll();
+    });
+  </script>
+
+<script>
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "gold") {
+    document.body.classList.add("gold-theme");
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/wallet-icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/wallet-icon-512.png">
+  <link rel="apple-touch-icon" href="icons/wallet-icon-512.png">
+
+  <title>محفظتي — لوحة الأرصدة</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="home-page">
+
+<!-- شاشة السبلش -->
+<div id="splash-screen">
+  <img src="wallet-icon-512.png" class="logo">
+  <div class="app-name">محفظتي</div>
+  <div class="tagline">إدارة أموالك بذكاء 💎</div>
+
+  <div class="loading-dots"><div></div><div></div><div></div></div>
+
+  <div class="splash-footer">تصميم: أبو عبدالله · جميع الحقوق محفوظة ©</div>
+</div>
+
+<div class="notification-container"></div>
+
+<header class="app-header">💎 محفظتي — اللوحة الرئيسية</header>
+
+<main class="container">
+
+  <!-- زر التحديث السريع -->
+  <button id="quickRefreshBtn" class="quick-refresh-btn">تحديث سريع</button>
+
+  <h1 class="page-title">💰 إجمالي الأرصدة والملخص العام 💰</h1>
+
+  <!-- الصف الأول — الإجماليات المحوّلة -->
+  <div class="cards-grid unified-grid">
+
+    <div class="card currency-card">
+      <div class="card-header">
+        <span class="card-title">إجمالي الأرصدة (YER)</span>
+        <span class="trend" id="trend-yer"></span>
+      </div>
+      <div class="card-amount" id="total-yer">—</div>
+      <div class="card-note">بعد التحويل من جميع العملات</div>
+     </div>
+
+    <div class="card currency-card">
+      <div class="card-header">
+        <span class="card-title">إجمالي الأرصدة (SAR)</span>
+        <span class="trend" id="trend-sar"></span>
+      </div>
+      <div class="card-amount" id="total-sar">—</div>
+      <div class="card-note">بعد التحويل من جميع العملات</div>
+    </div>
+
+    <div class="card currency-card">
+      <div class="card-header">
+        <span class="card-title">إجمالي الأرصدة (USD)</span>
+        <span class="trend" id="trend-usd"></span>
+      </div>
+      <div class="card-amount" id="total-usd">—</div>
+      <div class="card-note">بعد التحويل من جميع العملات</div>
+    </div>
+
+  </div>
+
+  <!-- الصف الثاني — الأصول الفعلية -->
+  <div class="cards-grid unified-grid">
+
+    <div class="card summary-card">
+      <div class="card-title">الأصول بالريال اليمني</div>
+      <div class="card-amount" id="orig-total-yer">—</div>
+      <div class="card-note">بدون تحويل</div>
+    </div>
+
+    <div class="card summary-card">
+      <div class="card-title">الأصول بالريال السعودي</div>
+      <div class="card-amount" id="orig-total-sar">—</div>
+      <div class="card-note">بدون تحويل</div>
+    </div>
+
+    <div class="card summary-card">
+      <div class="card-title">الأصول بالدولار</div>
+      <div class="card-amount" id="orig-total-usd">—</div>
+      <div class="card-note">بدون تحويل</div>
+    </div>
+
+  </div>
+
+  <!-- الصف الثالث — ذهب / ديون / زكاة -->
+  <div class="cards-grid unified-grid">
+
+    <div class="card summary-card">
+      <div class="card-title">إجمالي الذهب</div>
+      <div class="card-amount" id="gold-total">—</div>
+      <div class="card-note" id="gold-grams">— غرام</div>
+    </div>
+
+<!-- بطاقة الديون -->
+<div class="card summary-card debts-card">
+  <div class="card-title">الديون</div>
+  <div class="card-note debts-line">ديون لي: <span id="debts-to-me">—</span></div>
+  <div class="card-note debts-line">ديون علي: <span id="debts-on-me">—</span></div>
+</div>
+
+<!-- بطاقة الزكاة -->
+<div class="card summary-card zakat-card" id="zakat-card">
+    <div class="card-title">ملخص الزكاة</div>
+
+    <div class="zakat-line">قيمة الزكاة: <span id="zakat-due">—</span></div>
+    <div class="zakat-line">المدفوع: <span id="zakat-paid">—</span></div>
+    <div class="zakat-line">نسبة التنفيذ: <span id="zakat-percent">—</span></div>
+
+    <div class="zakat-progress-wrapper">
+        <div class="zakat-progress-inner" id="zakat-progress-inner"></div>
+    </div>
+
+    <div class="zakat-line">المتبقي: <span id="zakat-remaining">—</span></div>
+</div>
+
+<!-- آخر تحديث موحد لكل الصفحة -->
+<div class="global-update-wrapper">
+    <span id="global-last-update">آخر تحديث: —</span>
+</div>
+
+<body>
+</main>
+
+
+<nav class="bottom-nav">
+  <a href="index.html" class="active"><span class="icon">🏠</span><span>الرئيسية</span></a>
+  <a href="banks.html"><span class="icon">📊</span><span>الأصول</span></a>
+  <a href="gold.html"><span class="icon">💎</span><span>الذهب</span></a>
+  <a href="zakat-overview.html"><span class="icon">🕌</span><span>الزكاة</span></a>
+  <a href="debts.html"><span class="icon">💳</span><span>الديون</span></a>
+  <a href="settings.html"><span class="icon">⚙️</span><span>الإعدادات</span></a>
+</nav>
+
+<script src="core_logic.js"></script>
+<script src="app.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const splash = document.getElementById("splash-screen");
+  const firstOpen = !sessionStorage.getItem("openedBefore");
+
+  if (firstOpen) {
+    splash.style.display = "flex";
+    setTimeout(() => {
+      splash.classList.add("hide");
+      sessionStorage.setItem("openedBefore","yes");
+    }, 2000); /* أقل لسرعة العرض */
+  } else {
+    splash.remove();
+  }
+});
+</script>
+<script>
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "gold") {
+    document.body.classList.add("gold-theme");
+}
+</script>
+
+
+</body>
+</html>

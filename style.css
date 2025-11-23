@@ -1,0 +1,2010 @@
+/* style.css — Glass UI SPA dashboard (royal blue + light gold) */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+:root{
+  --royal-top: #203b9d;
+  --royal-bottom: #0f1f50;
+  --royal-mid: #2749b0;
+  --gold: #f0d890;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --text: #f7f9ff;
+  --muted: rgba(247,249,255,0.75);
+  --card-radius: 16px;
+  --shadow: 0 12px 36px rgba(6,12,40,0.45);
+  --bg-color: #0d1b2a;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.06);
+  --text-color: #f7f9ff;
+}
+/* ===== Light Gold Theme (Premium White & Gold) ===== */
+body.gold-theme {
+    --bg-color: #faf9f6;
+    --card-bg: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-color: #1a1a1a;
+    --text-muted: #666;
+    --gold: #d4a017;
+    --accent-color: #d4a017;
+}
+
+/* Theme System (Light Mode) */
+body.light-theme {
+    --bg-color: #f4f5f9;
+    --card-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --text-muted: #666;
+    --accent-color: #0077cc;
+    --card-border: rgba(0,0,0,0.08);
+
+    /* الإضافات المهمة */
+    --text: #1a1a1a;
+    --muted: #555;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background: var(--bg-color);color:var(--text);-webkit-font-smoothing:antialiased;}
+
+.app-header{display:none} 
+
+.container{max-width:1100px;margin:0 auto;padding:40px 20px 120px;text-align:right;}
+
+/* --- Titles --- */
+.page-title{font-size:24px;font-weight:700;color:var(--text);margin-bottom:25px;border-bottom:1px solid var(--glass-border);padding-bottom:15px;}
+.page-subtitle{font-size:20px;font-weight:600;color:var(--gold);margin-top:20px;margin-bottom:15px;}
+
+/* --- Cards Grid --- */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width: 768px) {
+    .cards-grid{grid-template-columns:1fr;} /* على الموبايل، عمود واحد */
+}
+
+.card{
+    background:var(--glass);
+    backdrop-filter:blur(8px);
+    border:1px solid var(--glass-border);
+    border-radius:var(--card-radius);
+    padding:25px;
+    text-align:right;
+    box-shadow:var(--shadow);
+    opacity:0;
+    transform:translateY(20px);
+    transition: all 0.4s ease-out; /* إضافة انتقال لـ banks.js */
+}
+
+.card-title{font-size:14px;color:var(--muted);margin-bottom:10px;}
+.card-amount{font-size:32px;font-weight:700;margin-bottom:10px;}
+.card-note{font-size:12px;color:var(--muted);margin-bottom:5px;}
+.card-update{font-size:11px;color:var(--gold);text-align:left;}
+
+/* --- Buttons and Inputs --- */
+.btn{
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    transition:background 0.2s ease, transform 0.2s ease;
+    font-weight:600;
+    text-align:center;
+    text-decoration:none;
+    display:inline-block;
+}
+.btn.primary{background:var(--gold);color:var(--royal-bottom);}
+.btn.primary:hover{background:#f0e0a0;transform:translateY(-1px);}
+.btn.cancel{background:rgba(255,255,255,0.1);color:var(--text);}
+.btn.cancel:hover{background:rgba(255,255,255,0.2);transform:translateY(-1px);}
+.btn.btn-small{padding: 8px 14px; font-size: 13px;} /* زر صغير */
+
+
+.action-row{margin-top:20px;text-align:center;}
+
+/* --- Input Fields --- */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+input[type="text"], input[type="number"], .styled-select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.08); 
+    color: var(--text);
+    font-size: 16px;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.styled-select {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.08) url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20fill%3D%22%23f7f9ff%22%20d%3D%22M4.5%207.5l5%205%205-5H4.5z%22%2F%3E%3C%2Fsvg%3E") no-repeat right 10px center;
+    background-size: 12px;
+    padding-left: 40px; /* مسافة للآيكون */
+}
+
+
+/* --- Bottom Navigation --- */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    height:70px;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+    border-top:1px solid var(--glass-border);
+    z-index:1000;
+}
+.nav-btn{
+    flex-grow:1;
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:600;
+    text-decoration:none;
+    padding:10px 0;
+    transition:color 0.2s ease, background 0.2s ease;
+}
+.nav-btn:hover{color:var(--text);}
+.nav-btn.active{color:var(--gold);border-bottom:2px solid var(--gold);}
+
+/* --- Splash Screen --- */
+.splash{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(180deg,var(--royal-mid) 0%,var(--royal-bottom) 100%);
+    z-index:10000;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+.splash-logo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.app-name{
+    font-size:40px;
+    font-weight:700;
+    color:var(--gold);
+    margin-bottom:15px;
+}
+.splash-tag{
+    font-size:16px;
+    color:var(--muted);
+    margin-top:10px;
+}
+.splash-credit {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    opacity: 0.85;
+}
+.loading-dots span{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:var(--gold);
+    border-radius:50%;
+    margin:0 5px;
+    animation:bounce 1.4s infinite ease-in-out both;
+}
+.loading-dots span:nth-child(1){animation-delay:-0.32s;}
+.loading-dots span:nth-child(2){animation-delay:-0.16s;}
+
+@keyframes bounce{
+    0%,80%,100%{transform:scale(0);}
+    40%{transform:scale(1);}
+}
+
+/* --- Notifications --- */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+}
+
+.custom-notification {
+    background: rgba(10, 10, 10, 0.9);
+    color: var(--text);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.custom-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.custom-notification.success {
+    border-left: 5px solid var(--gold);
+}
+
+.custom-notification.error {
+    background: rgba(150, 30, 30, 0.9);
+    border-left: 5px solid #ff5555;
+}
+
+/* --- تنسيقات خاصة بقوائم الأصول والديون (list-container) --- */
+
+.list-container {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    
+    /* تطبيق ثيم البطاقة على عناصر القائمة */
+    background: var(--card-bg); 
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.list-item:hover {
+    transform: translateY(-2px);
+}
+
+.debt-item div p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.debt-total, .asset-total {
+    text-align: left; /* لضمان محاذاة الأزرار والعملة */
+}
+
+.value-yer {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 5px;
+}
+
+/* تمييز الديون المستحقة لي (أصول) والديون المستحقة عليّ (خصوم) */
+.debt-to-me {
+    border-left: 5px solid #63c76c; /* أخضر فاتح */
+}
+.debt-by-me {
+    border-left: 5px solid #ff5555; /* أحمر تنبيه */
+}
+
+/* --- تنسيقات خاصة بصفحة الزكاة (zakat.html) والذهب (gold.html) --- */
+
+.zakat-summary, .zakat-result {
+    padding: 20px;
+    margin-bottom: 25px;
+    /* استخدام تنسيق البطاقة الأساسي */
+    background: var(--card-bg);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+}
+
+.zakat-summary h2, .zakat-result h2 {
+    font-size: 18px;
+    color: var(--gold);
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 15px;
+}
+
+.summary-item, .result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 15px;
+}
+
+.total-net {
+    font-size: 17px !important;
+    font-weight: 600;
+    border-top: 1px dashed var(--muted);
+    margin-top: 10px;
+    padding-top: 10px !important;
+    color: var(--text);
+}
+
+.final-result strong {
+    font-size: 22px;
+    color: #63c76c; /* لون أخضر للزكاة المستحقة */
+    font-weight: 700;
+}
+
+.zakat-status {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- تنسيقات الأزرار العائمة (FAB) والمودال (Banks Page) --- */
+
+.fab {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--royal-bottom);
+    font-size: 30px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.2s ease;
+}
+.fab:hover {
+    transform: scale(1.05);
+}
+
+/* المودال */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-backdrop.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal {
+    background: var(--royal-bottom);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--shadow);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.modal-backdrop.active .modal {
+    transform: scale(1);
+}
+.modal h2 {
+    color: var(--gold);
+    font-size: 22px;
+    margin-top: 0;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+.currency-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.currency-row select, .currency-row input[type="number"] {
+    flex-grow: 1;
+}
+.add-row-btn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    padding: 10px;
+    border: 1px dashed var(--glass-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.add-row-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* تعديل عرض المودال الصغير للحذف */
+.modal.small {
+    max-width: 350px;
+    text-align: center;
+}
+.modal.small .modal-actions {
+    justify-content: space-around;
+}
+/* ==== بطاقة الملخص (عرض كامل بصفين) ==== */
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==== نموذج الإضافة عرض كامل ==== */
+.form-card {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+/* ==== تحسين مدخلات النموذج ==== */
+.form-card .input-group input,
+.form-card .input-group select {
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* ==== قائمة الديون ==== */
+.debts-list-container {
+    width: 100%;
+}
+
+/* ==== حل مشكلة navbar المختفي ==== */
+body {
+    padding-bottom: 120px;
+}
+/* شبكة عمودين تحت البطاقات */
+.debt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .debt-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* تحسين شكل النموذج */
+.form-card input,
+.form-card select {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--text);
+    transition: 0.3s;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.12);
+}
+
+/* جعل select متناسق مع الثيم */
+.styled-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" width="24" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    padding-left: 35px;
+}
+
+/* بطاقة الديون في العمود الثاني */
+.debts-list-container {
+    margin-top: 10px;
+}
+
+.debt-item {
+    opacity: 1 !important;
+    transform: none !important;
+    margin-bottom: 18px;
+    padding: 18px;
+    border-radius: 14px;
+}
+
+/* توحيد التباعد داخل الحقول */
+.input-group {
+    margin-bottom: 12px;
+}
+/* ===== البطاقات العلوية ===== */
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== نموذج إضافة دين بعرض كامل ===== */
+.form-full {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* تحسين مدخلات النموذج */
+.form-full input,
+.form-full select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    margin-top: 5px;
+    color: var(--text);
+}
+
+.form-full input:focus,
+.form-full select:focus {
+    background: rgba(255,255,255,0.12);
+    border-color: var(--gold);
+}
+
+/* تنسيق select ليطابق الثيم */
+.styled-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="22" width="22" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    padding-left: 35px;
+}
+
+/* ===== قائمة الديون (عرض كامل) ===== */
+.full-width {
+    width: 100%;
+}
+
+.debt-item {
+    opacity: 1 !important;
+    transform: none !important;
+    margin-bottom: 18px;
+    padding: 18px;
+    border-radius: 14px;
+}
+/* ====== شريط التنقل السفلي الفاخر ====== */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 70px;
+    background: #061638;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(10px);
+}
+
+.bottom-nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 10px;
+    position: relative;
+    opacity: 0.75;
+    transition: 0.25s ease;
+}
+
+.bottom-nav a .nav-icon {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 4px;
+    opacity: 0.85;
+}
+
+.bottom-nav a:hover {
+    opacity: 1;
+}
+
+/* ===== تحديد الصفحة النشطة ===== */
+
+.bottom-nav a.active {
+    opacity: 1;
+}
+
+.bottom-nav a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    width: 40%;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 3px;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+/* تحسين صفحة الزكاة لتكون متوافقة مع الجوال */
+
+/* جعل الكروت تأخذ كامل العرض بدون تمدد زائد */
+.zakat-summary,
+.zakat-result {
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 25px;
+}
+
+/* تصغير العناوين على الشاشات الصغيرة */
+@media (max-width: 600px) {
+    .page-title {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .zakat-summary h2,
+    .zakat-result h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .summary-item,
+    .result-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .summary-item span,
+    .result-item span {
+        font-size: 15px;
+    }
+
+    .summary-item strong,
+    .result-item strong {
+        font-size: 18px;
+    }
+
+    .final-result strong {
+        font-size: 22px !important;
+    }
+
+    #zakat-status {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+/* 🔧 إصلاح صفحة الذهب لتكون Responsive على الجوال */
+
+/* كسر الـ inline grid-template على الموبايل */
+@media (max-width: 768px) {
+
+    /* كروت أسعار الذهب */
+    .cards-grid[style*="repeat(3"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* كروت النتيجة (2 أعمدة → عمود واحد) */
+    .cards-grid[style*="repeat(2"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* حقول الإدخال داخل البطاقة */
+    #goldForm .input-group input {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    /* البطاقات نفس ارتفاع وصفحة الديون */
+    .cards-grid .card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* العناوين وسط */
+    .page-title,
+    .page-subtitle {
+        text-align: center;
+    }
+
+    /* تصغير الخط الكبير */
+    .card-amount {
+        font-size: 24px !important;
+    }
+}
+.toggle-setting {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.toggle-setting input {
+    display: none;
+}
+
+.toggle-slider {
+    width: 50px;
+    height: 26px;
+    background: #777;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.toggle-slider::after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: .3s ease;
+}
+
+.toggle-setting input:checked + .toggle-slider {
+    background: var(--royal-accent, #f5c96d);
+}
+
+.toggle-setting input:checked + .toggle-slider::after {
+    transform: translateX(24px);
+}
+
+.toggle-label {
+    font-size: 15px;
+}
+.actions-fixed {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+/* ===== دعم بطاقات البنوك — تعديل مخصص لصفحة الأصول ===== */
+
+.bank-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px; /* أو 320 إن رغبت */
+}
+
+.card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* يثبت التحويلات نفس المسافة دائماً */
+}
+
+.actions-fixed {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto; /* تثبيت الأزرار أسفل البطاقة */
+}
+.btn-danger {
+    background: #b51f1f;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #8f1717;
+}
+
+/* تحسين الفاصل */
+.card-divider {
+    border: none;
+    border-top: 1px dashed rgba(255,255,255,0.08); /* أوضح وأجمل */
+    margin: 14px 0;
+}
+.converted-values p {
+    font-size: 0.82rem;  /* أصغر وجميل */
+    opacity: 0.55;       /* أفضل من الحالي */
+    margin: 2px 0;
+}
+/* تحسين عنوان اسم البنك في بطاقات الأصول */
+.card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+    opacity: 0.95;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px; /* يعطي وضوح أفضل للخارجية */
+}
+.cards-grid,
+.banks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: stretch;   /* ← هذا يحل المشكلة 100% */
+}
+.card.gold-card {
+    display: flex;
+    flex-direction: column;
+}
+.zakat-balance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding: 0 10px;
+}
+
+.zakat-balance-row .item {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    color: var(--text-color);
+    letter-spacing: 0.5px;
+}
+/* ---- إضافات صغيرة لصفحة الرئيسية: زر التحديث السريع ومؤشرات الاختلاف ---- */
+.quick-update .btn { padding:8px 12px; font-size:13px; border-radius:10px; }
+.trend { font-weight:700; font-size:14px; margin-left:6px; }
+.trend.up { color:#63c76c; }
+.trend.down { color:#ff7b7b; }
+.count-anim { transform-origin:center; }
+}
+/* ----------------------------------------------------
+   الأساسيات
+---------------------------------------------------- */
+
+body {
+  margin: 0;
+  font-family: "Cairo", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding-bottom: 80px;
+}
+
+.container {
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 22px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #f1f1f1;
+}
+
+/* ----------------------------------------------------
+   البطاقات العامة
+---------------------------------------------------- */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: transform .25s ease, background .25s ease;
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: rgba(255,255,255,0.06);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffdd77;
+}
+
+.card-amount {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 8px 0 6px 0;
+}
+
+.card-note {
+  font-size: 14px;
+  color: #bfc3c9;
+}
+
+.card-update {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #8fa3b0;
+}
+
+/* ----------------------------------------------------
+   مؤشر الاتجاه (UP/DOWN)
+---------------------------------------------------- */
+
+.trend {
+  font-size: 22px;
+  font-weight: 900;
+  margin-left: 6px;
+}
+
+.trend.up {
+  color: #4caf50;
+}
+
+.trend.down {
+  color: #ff5252;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ----------------------------------------------------
+   البطاقات السفلية (ذهب – ديون – زكاة)
+---------------------------------------------------- */
+
+.summary-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.summary-card .card-title {
+  font-size: 17px;
+}
+
+.summary-card .card-note {
+  font-size: 15px;
+  margin-top: 6px;
+}
+
+/* ----------------------------------------------------
+   زر التحديث السريع
+---------------------------------------------------- */
+
+.quick-refresh-btn {
+  display: inline-block;
+  background: linear-gradient(180deg,#ffd56e 0%,#dbb43c 100%);
+  border: none;
+  color: #263238;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 12px rgba(255, 213, 110, .25);
+  transition: .25s;
+}
+
+.quick-refresh-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(255, 213, 110, .35);
+}
+
+/* ----------------------------------------------------
+   السبلش
+---------------------------------------------------- */
+
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #1565C0, #0d47a1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 999999;
+  transition: opacity 1s ease-out;
+}
+
+#splash-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash-screen img.logo {
+  width: 150px;
+  animation: fadeInScale 1.4s forwards, goldenPulse 3s ease-in-out infinite;
+}
+
+.app-name {
+  font-size: 2rem;
+  margin-top: 14px;
+  opacity: 0;
+  animation: fadeInUp 1s 1s forwards;
+  font-weight: 700;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: #FFD700;
+  opacity: 0;
+  animation: fadeIn 1s 2s forwards;
+  margin-top: 8px;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 30px;
+  opacity: 0;
+  animation: fadeIn 1s 2.5s forwards;
+}
+
+.loading-dots div {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background-color: #FFD700;
+  animation: bounceDot 1.4s infinite ease-in-out;
+}
+
+.loading-dots div:nth-child(2) { animation-delay: .2s; }
+.loading-dots div:nth-child(3) { animation-delay: .4s; }
+
+.splash-footer {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+  font-size: .85rem;
+  color: rgba(255,255,255,0.95);
+}
+
+/* ----------------------------------------------------
+   Animations
+---------------------------------------------------- */
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity:0; transform:scale(0.7); }
+  to { opacity:1; transform:scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@keyframes bounceDot {
+  0%,80%,100% { transform:scale(0.7); opacity:0.7; }
+  40% { transform:scale(1.3); opacity:1; }
+}
+
+@keyframes goldenPulse {
+  0%,100% { filter: drop-shadow(0 0 10px rgba(255,215,0,0.4)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 25px rgba(255,215,0,0.9)); transform: scale(1.05); }
+}
+
+/* ----------------------------------------------------
+   Bottom Navigation
+---------------------------------------------------- */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 70px;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+}
+
+.bottom-nav a.active {
+  color: #ffdd77;
+}
+
+.bottom-nav .icon {
+  font-size: 20px;
+  margin-bottom: 3px;
+}
+/* رفع البطاقات السفلية قليلاً بعد حذف العنوان */
+.cards-grid + .cards-grid {
+    margin-top: -20px;
+}
+/* ============================
+   PATCH: تحسينات الصفحة الرئيسية فقط
+   ============================ */
+
+/* أسهم الاتجاه (▲ ▼) */
+.trend {
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 6px;
+}
+.trend.up {
+    color: #4CAF50; /* أخضر صاعد */
+}
+.trend.down {
+    color: #FF5252; /* أحمر هابط */
+}
+
+/* بطاقات الأصول الأصلية (USD/SAR/YER) */
+.original-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 18px;
+    border-radius: 14px;
+    backdrop-filter: blur(6px);
+}
+
+/* عناوين البطاقات السفلية لتصبح أوضح */
+.summary-card .card-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* تحسين خط الصف الثاني (الذهب – الديون – الزكاة) */
+.summary-card .card-amount {
+    font-size: 28px;
+    font-weight: 800;
+}
+.summary-card .card-note {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* شريط تقدم الزكاة */
+.zakat-progress-container {
+    width: 100%;
+    height: 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    margin-top: 10px;
+    overflow: hidden;
+}
+.zakat-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    border-radius: 20px;
+    transition: width 0.6s ease-in-out;
+}
+
+/* تحسين ارتفاع البطاقات السفلية بعد حذف "نظرة سريعة" */
+.cards-grid + .cards-grid {
+    margin-top: -5px;
+}
+
+/* Counter animation (إن احتجنا CSS فقط) */
+.counter-animate {
+    animation: counterPop 0.4s ease;
+}
+@keyframes counterPop {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+/* =================================================================== */
+/*  تحسينات صفحة الرئيسية فقط — بدون المساس بباقي الصفحات              */
+/* =================================================================== */
+
+/* توحيد ارتفاع البطاقات */
+.card {
+    min-height: 175px;
+}
+
+/* بطاقات الصف الثاني (ذهب – ديون – زكاة) */
+.summary-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.summary-card .card-note {
+    font-size: 0.95rem;
+}
+
+/* بطاقات الأصول الأصلية (بدون تحويل) */
+.original-currency-card {
+    min-height: 150px;
+}
+
+/* مؤشرات الاتجاه ▲ ▼ */
+.trend {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-right: 6px;
+}
+
+.trend.up {
+    color: #4cd964;
+}
+
+.trend.down {
+    color: #ff3b30;
+}
+
+/* شريط الزكاة الجديد */
+.zakat-progress-container {
+    margin-top: 10px;
+    width: 100%;
+    background: rgba(255,255,255,0.15);
+    height: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.zakat-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    width: 0%;
+    transition: width 0.8s ease;
+}
+/* إصلاح كامل لمشكلة اختفاء نهاية الصفحات */
+main.container {
+    padding-bottom: 160px !important;  /* أعلى من ارتفاع الـ bottom-nav */
+}
+
+/* إصلاح scroll لصفحة الديون فقط */
+body.debts-page .container {
+    padding-bottom: 180px !important;
+}
+
+/* دعم أي container في صفحة الديون حتى لو بدون body.debts-page */
+.debts-list-container,
+.debts-wrapper,
+.container.debts-container {
+    padding-bottom: 180px !important;
+}
+/* ==============================
+   شريط التقدم لبطاقة الزكاة (الصفحة الرئيسية)
+   ============================== */
+
+.zakat-card {
+    padding-bottom: 16px;
+}
+
+.zakat-line {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.zakat-progress-wrapper {
+    width: 100%;
+    height: 14px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 8px 0 8px 0;
+}
+
+.zakat-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #d4af37, #63c76c);
+    transition: width 0.5s ease;
+}
+
+/* توحيد ارتفاع بطاقات الصف الثاني */
+.summary-card {
+    min-height: 150px;
+}
+/* بطاقات الاتجاه ▲ ▼ */
+.trend {
+    font-size: 18px;
+    margin-right: 6px;
+    font-weight: bold;
+}
+.trend.up {
+    color: #0f0;
+}
+.trend.down {
+    color: #f33;
+}
+
+/* البطاقات السفلية – حجم خط مناسب */
+.cards-grid-second .card-amount {
+    font-size: 26px;
+}
+.cards-grid-second .card-note {
+    font-size: 16px;
+}
+
+/* بطاقات الأصول الأصلية */
+.base-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* شريط تقدم الزكاة */
+.zakat-progress-wrapper {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    margin: 5px 0 10px 0;
+}
+.zakat-progress-inner {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #2ecc71, #27ae60);
+    border-radius: 6px;
+    transition: width 0.8s ease;
+}
+
+.zakat-line {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+/* إصلاح scroll لكل الصفحات */
+body {
+    padding-bottom: 160px !important;
+}
+
+/* ديون */
+body.debts-page {
+    padding-bottom: 200px !important;
+}
+/* تحسين المسافات بين البطاقات في الصفحة الرئيسية فقط */
+.home-page .card {
+    margin-bottom: 26px !important;
+}
+/* تحسين وضوح خطوط بطاقة الديون فقط */
+/* عنوان البطاقة */
+.card .debts-title,
+.card-title.debts-title {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+}
+
+/* النصوص الداخلية للديون */
+.debts-details {
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    color: #e6eeff !important;
+    line-height: 1.6 !important;
+}
+/* تحسين وضوح بطاقة الديون فقط */
+.summary-card .card-title:contains("الديون"),
+.summary-card .card-title:has(+ .card-note) {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+}
+
+/* تكبير نص "ديون لي" و "ديون علي" داخل بطاقة الديون */
+.summary-card .card-note:nth-of-type(1),
+.summary-card .card-note:nth-of-type(2) {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #e8eeff !important;
+    line-height: 1.9 !important;
+}
+/* ----------- بطاقة الديون فقط ----------- */
+.debts-card .card-title {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #ffdd77 !important;
+}
+
+/* السطور داخل بطاقة الديون */
+.debts-card .debts-line {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #e9edff !important;
+    margin-top: 6px;
+    line-height: 1.9;
+}
+/* صندوق آخر تحديث */
+.global-update-wrapper {
+    width: 100%;
+    text-align: right;      /* محاذاة إلى اليمين */
+    padding-right: 20px;    /* نفس مسافة بطاقات اليمين */
+    margin-top: -10px;      /* ارفع أو انزل حسب رغبتك */
+    margin-bottom: 25px;
+}
+
+/* نص آخر تحديث */
+#global-last-update {
+    color: #c9d4f5;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+
+/* تحسين الـ Responsive على الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .cards-grid {
+        grid-template-columns: 1fr !important;  /* بطاقة واحدة بكل صف */
+        gap: 18px !important;
+    }
+
+    .card {
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    .global-update-wrapper {
+        text-align: center !important;
+        margin-right: 0 !important;
+    }
+}
+/* ==== Gold theme fixes (global) ==== */
+body.gold-theme .progress-bar-wrap {
+    background: rgba(0,0,0,0.1) !important;
+    border-radius: 10px;
+}
+
+body.gold-theme .progress-bar {
+    background: linear-gradient(90deg, #d4b15a, #63c76c) !important;
+}
+
+body.gold-theme .card-note {
+    color: #444 !important;
+    font-weight: 600;
+}
+
+body.gold-theme .bottom-nav {
+    background: #f1e9d0 !important;
+    border-top: 1px solid #d1c7a5 !important;
+}
+
+body.gold-theme .bottom-nav a {
+    color: #2a2a2a !important;
+    font-weight: 700;
+    opacity: 1 !important;
+}
+
+/* ------------------------------
+   تحسين القوائم المنسدلة (Dropdown)
+   ------------------------------ */
+select,
+.styled-select {
+    background-color: #0f1b33 !important;
+    color: #ffffff !important;
+    border: 1px solid #2c3f66 !important;
+    padding: 10px 12px !important;
+    border-radius: 10px !important;
+    font-size: 1rem;
+    width: 100%;
+    appearance: none; /* لإخفاء السهم الافتراضي */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    background-image: url("data:image/svg+xml;utf8,\
+<svg fill='white' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'>\
+<path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    background-size: 16px;
+}
+
+/* الخلفية الداخلية لخيارات القائمة */
+select option {
+    background-color: #112040 !important;
+    color: #ffffff !important;
+    font-size: 1rem;
+}
+.confirm-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.confirm-box {
+    background: #192644;
+    padding: 25px;
+    border-radius: 15px;
+    width: 85%;
+    max-width: 350px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.confirm-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #ffcb47;
+}
+
+.confirm-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-danger {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+
+.btn-cancel {
+    background: #556;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+body.gold-theme .card {
+    background: rgba(255,255,255,0.85) !important;
+    border: 1px solid rgba(0,0,0,0.08);
+    color: #333 !important;
+}
+
+body.gold-theme .card-title {
+    color: #b78b12;
+}
+
+body.gold-theme .bottom-nav {
+    background: #ffffffee;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+body.gold-theme .bottom-nav a.active {
+    color: #b78b12;
+}
+
+body.gold-theme #global-last-update {
+    color: #555;
+}
+/* ===== إصلاح الثيم الذهبي لصفحة الإعدادات ===== */
+body.light-theme {
+    background: #f4f5f9 !important;
+    color: #1a1a1a !important;
+}
+
+body.light-theme .card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.10) !important;
+    color: #1a1a1a !important;
+}
+
+body.light-theme input,
+body.light-theme select {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border: 1px solid rgba(0,0,0,0.20) !important;
+}
+
+body.light-theme .btn.primary {
+    background: #d4af37 !important;
+    color: #1a1a1a !important;
+}
+.settings-page .container,
+.settings-page .card {
+    background: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+/* إصلاح خلفية صفحة الإعدادات مع الثيم */
+.settings-page body,
+body.settings-page {
+    background: var(--bg-color) !important;
+}
+
+/* جعل بطاقة الإعدادات داكنة في الثيم الداكن */
+body:not(.gold-theme) .card {
+    background: var(--glass) !important;
+    color: var(--text) !important;
+}
+/* ✅ إصلاحات الثيم الذهبي (Overrides) */
+body.gold-theme .page-title,
+body.gold-theme .card-title,
+body.gold-theme label,
+body.gold-theme .card-note,
+body.gold-theme .card-update,
+body.gold-theme .confirm-title,
+body.gold-theme .toggle-label {
+    color: #222 !important;
+    opacity: 1 !important;
+}
+
+body.gold-theme .card-note {
+    color: #444 !important;
+}
+
+body.gold-theme .btn.cancel {
+    background: #f2f2f2 !important;
+    color: #222 !important;
+    border: 1px solid #ddd;
+}
+
+body.gold-theme .custom-notification {
+    background: #fff3c4 !important;
+    color: #4a3b00 !important;
+}
+
+body.gold-theme {
+    background: #f4f5f9 !important;
+}
+
+body.gold-theme .container {
+    background: #ffffff00 !important;
+}
+body.gold-theme input {
+    color: #222 !important;
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+}
+body.gold-theme .bottom-nav {
+    background: #f2e9c9 !important;
+    border-top: 1px solid #d8cba5;
+}
+
+body.gold-theme .bottom-nav a {
+    color: #4a3b00 !important;
+}
+body.gold-theme .app-header {
+    color: #4a3b00 !important;
+}
+/* ============================
+   GOLD THEME FIXES (Global)
+============================ */
+
+body.gold-theme {
+    --bg-color: #f8f6ee;
+    --card-bg: #ffffff;
+    --text-color: #222222;
+    --text-muted: #555555;
+    --card-border: rgba(0,0,0,0.15);
+    --nav-bg: #efe6c9;
+}
+
+/* النصوص العامة */
+body.gold-theme,
+body.gold-theme * {
+    color: var(--text-color) !important;
+}
+
+/* الملاحظات والنصوص الخفيفة */
+body.gold-theme .card-note,
+body.gold-theme .card-update,
+body.gold-theme .summary-item,
+body.gold-theme .result-item {
+    color: var(--text-muted) !important;
+}
+
+/* الحقول */
+body.gold-theme input,
+body.gold-theme select {
+    background: #ffffff !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+}
+
+/* البطاقات */
+body.gold-theme .card {
+    background: #ffffff !important;
+    border-color: rgba(0,0,0,0.15) !important;
+}
+
+/* شريط التنقل السفلي */
+body.gold-theme .bottom-nav {
+    background: var(--nav-bg) !important;
+    border-top: 1px solid rgba(0,0,0,0.15);
+}
+
+/* نصوص شريط التنقل */
+body.gold-theme .bottom-nav a {
+    color: #333 !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+}
+
+/* الأيقونات في الشريط السفلي */
+body.gold-theme .bottom-nav .icon {
+    opacity: 0.9 !important;
+}
+/* ============================
+  GOLD THEME FIXES FULL PATCH
+============================ */
+body.gold-theme .bottom-nav {
+background: #f3e7c3 !important;
+border-top: 1px solid rgba(0,0,0,0.15);
+}
+
+body.gold-theme .bottom-nav a {
+color: #222 !important;
+font-weight: 700;
+}
+
+body.gold-theme .modal,
+body.gold-theme .confirm-modal .confirm-box {
+background: #ffffff !important;
+color: #222 !important;
+}
+
+body.gold-theme input,
+body.gold-theme select,
+body.gold-theme textarea {
+color: #222 !important;
+background: #ffffff !important;
+border: 1px solid #d6c59a !important;
+}
+
+body.gold-theme .progress-bar {
+background: linear-gradient(90deg, #d4af37, #f5d978) !important;
+}
+
+body.gold-theme .progress-container {
+background: #eee2c1 !important;
+}
+
+body.gold-theme .card small,
+body.gold-theme .card .subtext,
+body.gold-theme .card-note,
+body.gold-theme .card-update {
+color: #555 !important;
+}
+body.gold-theme .progress-bar-container {
+    background: rgba(0,0,0,0.1) !important;
+}
+
+body.gold-theme .progress-bar-fill {
+    background: linear-gradient(to right, #c8a23a, #e8d27c) !important;
+}
+body.gold-theme .small-text,
+body.gold-theme .debt-note,
+body.gold-theme .card-note,
+body.gold-theme .text-muted {
+    color: #444 !important;
+}
+body.gold-theme .card * {
+    color: #222 !important;
+}
+body.gold-theme div[style*="progress"] {
+    background: rgba(0,0,0,0.1) !important;
+}
+
+body.gold-theme .progress,
+body.gold-theme .progress-bar,
+body.gold-theme .progress-fill {
+    background: linear-gradient(to right, #c8a23a, #e8d27c) !important;
+}
+body.gold-theme .bottom-nav {
+    background: #f3e9c9 !important;
+}
+
+body.gold-theme .bottom-nav * {
+    color: #222 !important;
+    font-weight: 700 !important;
+}
+/* =======================
+   GOLD THEME FINAL FIX
+   ======================= */
+
+body.gold-theme .bottom-nav {
+    background: #f3e9c9 !important;
+}
+
+body.gold-theme .bottom-nav a,
+body.gold-theme .bottom-nav * {
+    color: #222 !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+}
+
+/* progress background */
+body.gold-theme .zakat-progress-container,
+body.gold-theme .progress-container,
+body.gold-theme .zakat-progress-wrapper {
+    background: rgba(0,0,0,0.12) !important;
+}
+
+/* progress fill */
+body.gold-theme .zakat-progress-bar,
+body.gold-theme .progress-bar,
+body.gold-theme .progress-fill {
+    background: linear-gradient(to right,#c8a23a,#e8d27c) !important;
+}
+
+/* hidden text like "دين لي" */
+body.gold-theme .card-note,
+body.gold-theme .card small,
+body.gold-theme .text-muted,
+body.gold-theme .debt-note,
+body.gold-theme .summary-item span,
+body.gold-theme .result-item span {
+    color: #444 !important;
+}
+body.gold-theme {
+    background: #f4f1e6 !important;
+}
+
+body.gold-theme .page-content,
+body.gold-theme main,
+body.gold-theme .content {
+    background: transparent !important;
+}
+
+body.gold-theme .container {
+    background: #ffffff !important;   /* بطاقات بيضاء فوق الخلفية الذهبية */
+}
+
+body.gold-theme .bottom-nav {
+    background: #f1e9d0 !important;
+    border-top: 1px solid #d1c7a5 !important;
+}
+
+body.gold-theme .bottom-nav a {
+    color: #2a2a2a !important;
+    font-weight: 700;
+    opacity: 1 !important;
+}
+body.gold-theme {
+    background: #f4f5f9 !important;
+}
+body.gold-theme main,
+body.gold-theme .page-content {
+    background: #f4f5f9 !important;
+}
+/* GOLD THEME FORCE TEXT FIXES */
+body.gold-theme {
+    --text: #111 !important;
+    --text-strong: #000 !important;
+    --muted: #666 !important;
+}
+
+/* أي نص أبيض أو شبه شفاف يتحول إلى غامق */
+body.gold-theme * {
+    color: var(--text) !important;
+}
+
+/* النصوص المهمة */
+body.gold-theme .big-number,
+body.gold-theme .card-title,
+body.gold-theme .section-title,
+body.gold-theme strong,
+body.gold-theme b {
+    color: var(--text-strong) !important;
+}
+
+/* ملاحظات */
+body.gold-theme .card-note,
+body.gold-theme .small,
+body.gold-theme .sub-text {
+    color: var(--muted) !important;
+}
+body.gold-theme .summary-card .card-note:nth-of-type(1),
+body.gold-theme .summary-card .card-note:nth-of-type(2) {
+    color: #222 !important;
+}
+
+body.gold-theme .summary-card .card-note {
+    color: #222 !important;
+}
+body.gold-theme .summary-card .card-note,
+body.gold-theme .summary-card .card-note strong {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #111 !important;
+}
+
+body.gold-theme {
+    background: #f8f5e6 !important;   /* خلفية ذهبية فاتحة */
+}
+body.gold-theme,
+html.gold-theme {
+    background: #f8f1d9 !important;
+}
+body.gold-theme body,
+body.gold-theme html {
+    background: #f8f1d9 !important;
+}
+body.gold-theme {
+    --bg-color: #f8f1d9 !important;
+}
+/* GOLD THEME FULL BACKGROUND FIX */
+body.gold-theme,
+html.gold-theme,
+body.gold-theme html {
+    background: #f1e9d0 !important;
+}
+
+/* أي عنصر يغطي بقية الصفحة */
+body.gold-theme .app-wrapper,
+body.gold-theme .page-wrapper,
+body.gold-theme .page-content,
+body.gold-theme main,
+body.gold-theme .content {
+    background: transparent !important;
+}
+
+/* المساحة الفارغة أسفل المحتوى */
+body.gold-theme .container {
+    background: transparent !important;
+}
+html.gold-theme,
+body.gold-theme {
+    background: #f8f1d9 !important;
+    background-color: #f8f1d9 !important;
+}
+html.gold-theme {
+    background-attachment: fixed !important;
+}
+html.gold-theme,
+body.gold-theme {
+    background: #f1e9d0 !important;
+    background-color: #f1e9d0 !important;
+}
+html.gold-theme,
+body.gold-theme {
+    background: #f8f1d9 !important;
+    background-color: #f8f1d9 !important;
+}
+html.gold-theme {
+    background: #f8f1d9 !important;
+}
+html:not(.gold-theme),
+body:not(.gold-theme) {
+    background: #0d1b2a !important;
+}

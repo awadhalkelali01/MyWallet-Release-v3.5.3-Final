@@ -1,0 +1,59 @@
+{
+  "name": "محفظتي",
+  "short_name": "محفظتي",
+  "description": "تطبيق محفظتي لإدارة الحسابات، الذهب، الزكاة، الديون والنسخ الاحتياطي.",
+  "lang": "ar",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1f50",
+  "theme_color": "#203b9d",
+  "icons": [
+    {
+      "src": "/icons/wallet-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/wallet-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/wallet-icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+  {
+    "name": "الملخص",
+    "short_name": "الملخص",
+    "description": "نظرة مالية شاملة: الأرصدة، الأصول، الذهب، الديون، الزكاة.",
+    "url": "/index.html",
+    "icons": [
+      {
+        "src": "/icons/wallet-icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  },
+  {
+    "name": "الحسابات",
+    "short_name": "الحسابات",
+    "description": "إدارة الأصول والحسابات المالية.",
+    "url": "/banks.html",
+    "icons": [
+      {
+        "src": "/icons/wallet-icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }
+]

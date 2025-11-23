@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <script>
+  (function() {
+      try {
+          if (localStorage.getItem("theme") === "gold") {
+              document.documentElement.classList.add("gold-theme");
+          }
+      } catch(e) {}
+  })();
+  </script>
+
+  <title>محفظتي — الإعدادات والأسعار</title>
+
+  <link href="style.css" rel="stylesheet">
+</head>
+<body class="settings-page">
+  <div class="notification-container"></div>
+  
+  <header class="app-header">💎 محفظتي — الإعدادات</header>
+
+  <main class="container">
+   <h1 class="page-title">⚙️ الإعدادات والنسخ الإحتياطي ⚙️</h1>
+
+    <div class="cards-grid" style="grid-template-columns: 1fr;">
+      
+      <div class="card" style="opacity: 1; transform: none;">
+        <h2 class="card-title" style="font-size: 18px; color: var(--gold);">تحديث الأسعار يدوياً</h2>
+        <div class="card-note" style="margin-bottom: 15px;">
+            الرجاء إدخال أسعار العملات والذهب مقابل **الريال اليمني (YER)**.
+        </div>
+        
+        <div class="input-group">
+            <label for="usd-rate-input" style="color: var(--text);">1 دولار (USD) = ريال يمني:</label>
+            <input type="number" id="usd-rate-input" placeholder="500" class="setting-input">
+        </div>
+        
+        <div class="input-group">
+            <label for="sar-rate-input" style="color: var(--text);">1 ريال سعودي (SAR) = ريال يمني:</label>
+            <input type="number" id="sar-rate-input" placeholder="30" class="setting-input">
+        </div>
+        
+        <div class="input-group">
+            <label for="gold-price-input" style="color: var(--gold);">1 جرام ذهب عيار 24 (GOLD) = ريال يمني:</label> 
+            <input type="number" id="gold-price-input" placeholder="200000" class="setting-input">
+        </div>
+
+        <div class="action-row" style="margin-top: 25px;">
+            <button id="save-rates-btn" class="btn primary">💾 حفظ وتحديث جميع الأرصدة</button>
+        </div>
+        
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0 15px;">
+        <div class="card-title" style="font-size: 16px; color: #ff5555; margin-bottom: 10px;">
+            🚫 إعادة تعيين البيانات
+        </div>
+        <div class="card-note">
+            لحذف جميع البيانات (البنوك، الأرصدة، الأسعار، الديون) والبدء من جديد. لا يمكن التراجع عن هذه العملية.
+        </div>
+        <div class="action-row" style="margin-top: 15px;">
+            <button id="delete-db-btn" class="btn cancel" style="background: #a30000; color: white;">حذف كل شيء والبدء من جديد</button>
+        </div>
+        <div class="card-update" id="last-update">آخر تحديث: —</div>
+      </div>
+      
+    </div>
+<h2 class="page-subtitle">📦 النسخة الاحتياطية</h2>
+
+<button class="btn primary" id="exportBackupBtn">📤 تصدير النسخة الاحتياطية</button>
+
+<input type="file" id="importBackupInput" accept=".json" style="display:none;">
+<button class="btn cancel" id="importBackupBtn">📥 استعادة نسخة احتياطية</button>
+
+<h2 class="page-subtitle">⚙️ النسخ الاحتياطي التلقائي</h2>
+
+<label class="toggle-setting">
+    <input type="checkbox" id="autoBackupToggle">
+    <span class="toggle-slider"></span>
+    <span class="toggle-label">تفعيل النسخ الاحتياطي التلقائي يوميًا</span>
+</label>
+<h2 class="page-subtitle">🎨 المظهر والثيم</h2>
+
+<label class="toggle-setting">
+    <input type="checkbox" id="themeToggle">
+    <span class="toggle-slider"></span>
+    <span class="toggle-label">تفعيل الثيم الذهبي الفاخر</span>
+</label>
+
+
+  </main>
+
+
+  <!-- bottom nav (same look as project) -->
+  <nav class="bottom-nav">
+    <a href="index.html"><span class="icon">🏠</span><span>الرئيسية</span></a>
+    <a href="banks.html"><span class="icon">📊</span><span>الأصول</span></a>
+    <a href="gold.html"><span class="icon">💎</span><span>الذهب</span></a>
+    <a href="zakat-overview.html"><span class="icon">🕌</span><span>الزكاة</span></a>
+    <a href="debts.html"><span class="icon">💳</span><span>الديون</span></a>
+    <a href="settings.html" class="active"><span class="icon">⚙️</span><span>الإعدادات</span></a>
+  </nav>
+
+  <script src="core_logic.js"></script>
+  <script src="settings.js"></script>
+
+<!-- Modal Confirm -->
+<div id="confirmModal" class="confirm-modal">
+  <div class="confirm-box">
+    <div class="confirm-title">تأكيد الحذف</div>
+    <div class="confirm-msg">هل أنت متأكد من حذف جميع البيانات؟ لا يمكن التراجع.</div>
+    <div class="confirm-actions">
+      <button id="confirmYes" class="btn-danger">نعم، احذف</button>
+      <button id="confirmNo" class="btn-cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

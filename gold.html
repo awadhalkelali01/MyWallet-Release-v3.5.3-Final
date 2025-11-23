@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>محفظتي — إدارة الذهب</title>
+
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="notification-container"></div>
+  <header class="app-header">💎 إدارة الذهب</header>
+  
+  <main class="container">
+    <h1 class="page-title">💎 حاسبة الذهب — الوزن والقيمة 💎</h1>
+    
+    <h2 class="page-subtitle" style="margin-top: 5px;">أسعار التحويل الحالية (مقابل YER)</h2>
+    <div class="cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 25px;">
+        
+        <div class="card" style="opacity: 1; transform: none; background: rgba(240, 216, 144, 0.1);">
+            <div class="card-title" style="color: var(--gold); font-size: 14px;">ذهب عيار 24 / جرام</div>
+            <div class="card-amount" id="current-gold-price-yer">— YER</div>
+        </div>
+
+        <div class="card" style="opacity: 1; transform: none; background: rgba(240, 216, 144, 0.08);">
+            <div class="card-title" style="color: var(--gold); font-size: 14px;">ذهب عيار 21 / جرام</div>
+            <div class="card-amount" id="current-gold-price-yer-21">— YER</div> 
+        </div>
+
+        <div class="card" style="opacity: 1; transform: none; background: rgba(255, 255, 255, 0.06);">
+            <div class="card-title" style="font-size: 14px;">1 ريال سعودي (SAR)</div>
+            <div class="card-amount" id="sar-rate">— YER</div>
+        </div>
+        
+    </div>
+    
+    <h2 class="page-subtitle" style="margin-top: 15px;">كميات الذهب لديك (جرام)</h2>
+    <div class="cards-grid" style="grid-template-columns: 1fr;">
+        <div class="card" style="opacity: 1; transform: none;">
+            <form id="goldForm">
+              
+              <div class="input-group">
+                <label for="gold24grams">كمية الذهب عيار 24 (جرام)</label>
+                <input type="number" id="gold24grams" step="0.01" min="0" value="0" required>
+              </div>
+              
+              <div class="input-group">
+                <label for="gold21grams">كمية الذهب عيار 21 (جرام)</label>
+                <input type="number" id="gold21grams" step="0.01" min="0" value="0" required>
+              </div>
+              
+              <div class="action-row" style="margin-top: 20px;">
+                <button type="submit" class="btn primary">🧮 حساب القيمة الإجمالية</button>
+              </div>
+            </form>
+        </div>
+    </div>
+    
+    <h2 class="page-subtitle" style="margin-top: 30px;">💎 إجمالي قيمة الذهب المحسوبة</h2>
+    <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 25px;">
+        
+        <div class="card" style="opacity: 1; transform: none; background: rgba(240, 216, 144, 0.1);">
+            <div class="card-title" style="font-size: 14px;">بالريال اليمني (YER)</div>
+            <div class="card-amount" id="total-gold-yer">— YER</div>
+        </div>
+
+        <div class="card" style="opacity: 1; transform: none; background: rgba(240, 216, 144, 0.06);">
+            <div class="card-title" style="font-size: 14px;">بالريال السعودي (SAR)</div>
+            <div class="card-amount" id="total-gold-sar">— SAR</div>
+        </div>
+        
+    </div>
+    
+    <div class="action-row" style="margin-top: 15px;">
+        <button id="save-gold-asset-btn" class="btn primary">💾 حفظ القيمة كأصل في محفظتي</button>
+    </div>
+    
+  </main>
+  
+<!-- شريط التنقل السفلي -->
+<nav class="bottom-nav">
+    <a href="index.html"><span class="icon">🏠</span><span>الرئيسية</span></a>
+    <a href="banks.html"><span class="icon">📊</span><span>الأصول</span></a>
+    <a href="gold.html" class="active"><span class="icon">💎</span><span>الذهب</span></a>
+    <a href="zakat-overview.html"><span class="icon">🕌</span><span>الزكاة</span></a>
+    <a href="debts.html"><span class="icon">💳</span><span>الديون</span></a>
+    <a href="settings.html"><span class="icon">⚙️</span><span>الإعدادات</span></a>
+</nav>
+
+  <script src="core_logic.js"></script> 
+  <script src="gold.js"></script>
+
+<script>
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "gold") {
+    document.body.classList.add("gold-theme");
+}
+</script>
+
+</body>
+</html>
