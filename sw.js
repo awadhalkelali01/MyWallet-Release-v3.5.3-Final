@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mywallet-v4.1";
+const CACHE_VERSION = "mywallet-v4.2";
 const CACHE_NAME = `${CACHE_VERSION}-cache`;
 
 const ASSETS = [
@@ -75,6 +75,7 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
 
 
 
